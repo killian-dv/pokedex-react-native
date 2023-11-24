@@ -17,6 +17,14 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          headerShown: true,
+          tabBarStyle: {
+            backgroundColor: "#fff",
+            paddingTop: 10,
+          },
+          style: {
+            backgroundColor: "transparent",
+          },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -36,6 +44,7 @@ export default function App() {
           tabBarActiveTintColor: "#ef4444",
           tabBarInactiveTintColor: "#64748b",
         })}
+        sceneContainerStyle={{ backgroundColor: "transparent" }}
       >
         <Tab.Screen
           name="Home"
