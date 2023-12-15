@@ -1,10 +1,53 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { CardPokemon } from "../components/CardPokemon";
 
 export function HomeScreen() {
+  const [pokemonList, setPokemonList] = useState([]);
+  const limit = 20;
+  const [offset, setOffset] = useState(0);
+
+  const gap = 8;
+
+  const fetchPokemonList = async () => {
+    const response = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`
+    );
+    setPokemonList((prevList) => [...prevList, ...response.data.results]);
+  };
+
+  useEffect(() => {
+    fetchPokemonList();
+  }, [offset]);
+
   return (
     <View className="p-2">
       <Text className="text-3xl font-bold">Pokedex</Text>
+      {pokemonList && (
+        <FlatList
+          data={pokemonList}
+          numColumns={2}
+          contentContainerStyle={{ gap }}
+          columnWrapperStyle={{ gap }}
+          renderItem={({ item }) => (
+            <CardPokemon pokemonName={item.name} pokemonUrl={item.url} />
+          )}
+          keyExtractor={(item) => item.url}
+          onEndReached={() => {
+            setOffset(offset + limit);
+          }}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </View>
   );
 }
