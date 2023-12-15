@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CardPokemon } from "../components/CardPokemon";
 
-export function HomeScreen() {
+export function HomeScreen({ navigation }) {
   const [pokemonList, setPokemonList] = useState([]);
   const limit = 20;
   const [offset, setOffset] = useState(0);
@@ -39,7 +39,11 @@ export function HomeScreen() {
           contentContainerStyle={{ gap }}
           columnWrapperStyle={{ gap }}
           renderItem={({ item }) => (
-            <CardPokemon pokemonName={item.name} pokemonUrl={item.url} />
+            <CardPokemon
+              pokemonName={item.name}
+              pokemonUrl={item.url}
+              navigation={navigation}
+            />
           )}
           keyExtractor={(item) => item.url}
           onEndReached={() => {

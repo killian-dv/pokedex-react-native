@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, Image, View } from "react-native";
 import axios from "axios";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-export function CardPokemon({ pokemonName, pokemonUrl }) {
+export function CardPokemon({ pokemonName, pokemonUrl, navigation }) {
   const [pokemonData, setPokemonData] = useState({});
 
   const fetchPokemon = async () => {
@@ -15,7 +17,6 @@ export function CardPokemon({ pokemonName, pokemonUrl }) {
   }, []);
 
   const getBackgroundColor = (type) => {
-    // Ajoutez des conditions ici pour associer chaque type à une classe CSS
     switch (type) {
       case "normal":
         return "bg-gray-400";
@@ -67,6 +68,7 @@ export function CardPokemon({ pokemonName, pokemonUrl }) {
       className={`w-[50%] aspect-square p-4 rounded relative overflow-hidden ${getBackgroundColor(
         pokemonData?.types?.[0]?.type?.name
       )}`}
+      onPress={() => navigation.navigate("Details", { pokemonData })}
     >
       {pokemonData && (
         <>
