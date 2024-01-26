@@ -1,14 +1,6 @@
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-} from "react-native";
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FlatList, Text, View } from "react-native";
 import { CardPokemon } from "../components/CardPokemon";
 
 export function HomeScreen({ navigation }) {
@@ -30,7 +22,7 @@ export function HomeScreen({ navigation }) {
   }, [offset]);
 
   return (
-    <View className="p-2">
+    <View className="p-2 bg-white">
       <Text className="text-3xl font-bold">Pokedex</Text>
       {pokemonList && (
         <FlatList

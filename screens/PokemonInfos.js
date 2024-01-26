@@ -1,61 +1,75 @@
-import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Image, ScrollView, Text, View } from "react-native";
+import { getBackgroundColor } from "../utils/utils";
 
 export function PokemonInfos({ route }) {
   const pokemonData = route.params.pokemonData;
 
-  const getBackgroundColor = (type) => {
-    switch (type) {
-      case "normal":
-        return "bg-gray-400";
-      case "fighting":
-        return "bg-red-600";
-      case "flying":
-        return "bg-blue-300";
-      case "poison":
-        return "bg-purple-600";
-      case "ground":
-        return "bg-yellow-800";
-      case "rock":
-        return "bg-yellow-600";
-      case "bug":
-        return "bg-teal-500";
-      case "ghost":
-        return "bg-violet-400";
-      case "steel":
-        return "bg-gray-500";
-      case "fire":
-        return "bg-red-500";
-      case "water":
-        return "bg-sky-400";
-      case "grass":
-        return "bg-emerald-400";
-      case "electric":
-        return "bg-yellow-300";
-      case "psychic":
-        return "bg-pink-500";
-      case "ice":
-        return "bg-blue-200";
-      case "dragon":
-        return "bg-red-900";
-      case "dark":
-        return "bg-gray-900";
-      case "fairy":
-        return "bg-pink-300";
-      case "unknown":
-        return "bg-gray-200";
-      case "shadow":
-        return "bg-gray-900";
-      default:
-        return "bg-slate-200";
-    }
-  };
-
   return (
-    <View className="p-2">
-      <View>
-        <Text className="text-xl">{pokemonData.name}</Text>
+    <ScrollView className="p-2">
+      <View
+        className={`aspect-square p-4 rounded-2xl overflow-hidden ${getBackgroundColor(
+          pokemonData?.types?.[0]?.type?.name
+        )}`}
+      >
+        <Image
+          className="w-full h-full"
+          source={{
+            uri: pokemonData?.sprites?.front_default,
+          }}
+        />
       </View>
-    </View>
+      <View className="w-full">
+        <View className="flex gap-4 flex-row items-center mt-1">
+          <Text className="flex-1 text-3xl font-bold capitalize">
+            {pokemonData.name}
+          </Text>
+          <View className="flex-2 flex-row items-center gap-2">
+            <View
+              className={`flex flex-row bg-slate-200/50 rounded-full self-start px-2 ${getBackgroundColor(
+                pokemonData?.types?.[0]?.type?.name
+              )} opacity-70`}
+            >
+              <Text className="text-white text-sm font-medium capitalize">
+                {pokemonData?.types?.[0]?.type?.name}
+              </Text>
+            </View>
+            {pokemonData?.types?.[1]?.type?.name && (
+              <View
+                className={`flex flex-row bg-slate-200/50 rounded-full self-start px-2 mt-1 ${getBackgroundColor(
+                  pokemonData?.types?.[1]?.type?.name
+                )} opacity-70`}
+              >
+                <Text className="text-white text-sm font-medium capitalize">
+                  {pokemonData?.types?.[1]?.type?.name}
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+        <View className="mt-2 max-w-full">
+          <View className="flex flex-column gap-2 mt-2 max-w-full min-w-0">
+            {pokemonData?.stats?.map((stat, index) => (
+              <View
+                className="flex-row items-center justify-between max-w-full min-w-0"
+                key={index}
+              >
+                <Text className="font-medium capitalize">{stat.stat.name}</Text>
+                <View className="w-[200px] max-w-[200px] min-w-0 flex-row items-center">
+                  <Text className="font-bold text-lg capitalize mr-2">
+                    {stat.base_stat}
+                  </Text>
+                  <View className="w-full flex-1 h-2 bg-gray-200 rounded-full mt-1">
+                    <View
+                      className={`h-full bg-green-200 rounded-full`}
+                      style={{ width: `${stat.base_stat}%` }}
+                    />
+                  </View>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
