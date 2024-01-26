@@ -1,16 +1,15 @@
-import * as React from "react";
-import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as React from "react";
 
 // Import pages
 import { HomeScreen } from "./screens/HomeScreen";
-import { SearchScreen } from "./screens/SearchScreen";
-import { TeamScreen } from "./screens/TeamScreen";
-import { SettingsScreen } from "./screens/SettingsScreen";
 import { PokemonInfos } from "./screens/PokemonInfos";
+import { SearchScreen } from "./screens/SearchScreen";
+import { SettingsScreen } from "./screens/SettingsScreen";
+import { TeamScreen } from "./screens/TeamScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,7 +26,7 @@ export default function App() {
               paddingTop: 10,
             },
             style: {
-              backgroundColor: "transparent",
+              backgroundColor: "#fff",
             },
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -79,7 +78,7 @@ export default function App() {
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Pokedex" component={HomeScreen} />
       <Stack.Screen name="Details" component={PokemonInfos} />
     </Stack.Navigator>
   );
@@ -88,7 +87,7 @@ function HomeStack() {
 function SearchStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="Search Pokemon" component={SearchScreen} />
     </Stack.Navigator>
   );
 }
