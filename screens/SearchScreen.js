@@ -14,11 +14,9 @@ export function SearchScreen() {
       .get(`https://pokeapi.co/api/v2/pokemon/${searchString.toLowerCase()}`)
       .then((response) => {
         setFilteredPokemonList(response.data);
-        // console.log("response", response.data);
       })
       .catch((error) => {
         console.log(error);
-        console.log("searchString", searchString);
       });
   };
 
@@ -31,11 +29,6 @@ export function SearchScreen() {
       resetPokemonList();
     }
   }, [searchString]);
-
-  useEffect(() => {
-    filteredPokemonList &&
-      console.log("filteredPokemonList", filteredPokemonList);
-  }, [filteredPokemonList]);
 
   return (
     <ScrollView style={styles.container}>

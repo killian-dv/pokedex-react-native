@@ -25,9 +25,7 @@ export function PokemonDetails({ pokemonInfos }) {
   const toggleLike = async () => {
     if (!isLiked) {
       const allKeys = await getAllKeys();
-      console.log("allKeys", allKeys);
       const pokemonKeys = allKeys?.filter((key) => key.startsWith("pokemon["));
-      console.log("pokemonKeys", pokemonKeys.length);
       if (pokemonKeys.length > 5) {
         Alert.alert("You can only have 6 liked pokemons");
         return;
@@ -40,14 +38,6 @@ export function PokemonDetails({ pokemonInfos }) {
       setIsLiked(!isLiked);
     }
   };
-
-  useEffect(() => {
-    AsyncStorage.getAllKeys().then((keys) => {
-      console.log("keys", keys);
-    });
-  }, []);
-
-  // console.log("pokemonData", getAllKeys());
 
   return (
     <>

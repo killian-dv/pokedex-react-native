@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { CardPokemon } from "../components/CardPokemon";
 import { getAllKeys, multiGet } from "../utils/utils";
@@ -21,7 +21,6 @@ export function TeamScreen({ navigation }) {
           const pokemonValues = pokemonDataPairs.map(([key, value]) =>
             JSON.parse(value)
           );
-          console.log("pokemonData", pokemonValues);
           setPokemonList(pokemonValues);
         } catch (error) {
           console.error("Error retrieving keys:", error);
@@ -31,10 +30,6 @@ export function TeamScreen({ navigation }) {
       fetchData();
     }, [])
   );
-
-  useEffect(() => {
-    console.log("hello");
-  }, []);
 
   return (
     <View style={{ padding: 10, backgroundColor: "#fff", minHeight: "100%" }}>
