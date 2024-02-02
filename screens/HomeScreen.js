@@ -22,8 +22,18 @@ export function HomeScreen({ navigation }) {
   }, [offset]);
 
   return (
-    <View className="p-2 bg-white">
-      <Text className="text-3xl font-bold">Pokedex</Text>
+    <View style={{ padding: 10, backgroundColor: "#fff" }}>
+      <Text
+        className="text-3xl font-bold"
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          marginBottom: 10,
+          color: "#3e424b",
+        }}
+      >
+        Pokedex
+      </Text>
       {pokemonList && (
         <FlatList
           data={pokemonList}

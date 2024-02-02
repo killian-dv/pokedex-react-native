@@ -1,67 +1,237 @@
-import { Image, Text, View } from "react-native";
-import { getBackgroundColor } from "../utils/utils";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  getAllKeys,
+  getBackgroundColor,
+  getData,
+  removeData,
+  storeData,
+} from "../utils/utils";
 
 export function PokemonDetails({ pokemonInfos }) {
   const pokemonData = pokemonInfos;
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    getData("pokemon[" + pokemonData.id.toString() + "]").then((data) => {
+      if (data) {
+        setIsLiked(true);
+      }
+    });
+  }, []);
+
+  const toggleLike = async () => {
+    if (!isLiked) {
+      const allKeys = await getAllKeys();
+      console.log("allKeys", allKeys);
+      const pokemonKeys = allKeys?.filter((key) => key.startsWith("pokemon["));
+      console.log("pokemonKeys", pokemonKeys.length);
+      if (pokemonKeys.length > 5) {
+        Alert.alert("You can only have 6 liked pokemons");
+        return;
+      } else {
+        setIsLiked(!isLiked);
+        storeData("pokemon[" + pokemonData.id.toString() + "]", pokemonData);
+      }
+    } else if (isLiked) {
+      removeData("pokemon[" + pokemonData.id.toString() + "]");
+      setIsLiked(!isLiked);
+    }
+  };
+
+  useEffect(() => {
+    AsyncStorage.getAllKeys().then((keys) => {
+      console.log("keys", keys);
+    });
+  }, []);
+
+  // console.log("pokemonData", getAllKeys());
 
   return (
     <>
       <View
-        className={`aspect-square p-4 rounded-2xl overflow-hidden ${getBackgroundColor(
-          pokemonData?.types?.[0]?.type?.name
-        )}`}
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: 16,
+          aspectRatio: 1,
+          padding: 16,
+          backgroundColor: getBackgroundColor(
+            pokemonData?.types?.[0]?.type?.name
+          ),
+        }}
       >
         <Image
-          className="w-full h-full"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
           source={{
             uri: pokemonData?.sprites?.front_default,
           }}
         />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            zIndex: 999,
+            backgroundColor: "white",
+            borderRadius: 999,
+            paddingHorizontal: 8,
+            height: 40,
+            width: 40,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+          onPress={() => toggleLike()}
+        >
+          <Ionicons
+            name={isLiked ? "ios-heart" : "ios-heart-outline"}
+            size={24}
+            color="red"
+          />
+        </TouchableOpacity>
       </View>
-      <View className="w-full">
-        <View className="flex gap-4 flex-row items-center mt-1">
+      <View
+        className="w-full"
+        style={{
+          width: "100%",
+        }}
+      >
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 10,
+            marginBottom: 10,
+          }}
+        >
           <Text className="flex-1 text-3xl font-bold capitalize">
             {pokemonData.name}
           </Text>
           <View className="flex-2 flex-row items-center gap-2">
             <View
-              className={`flex flex-row bg-slate-200/50 rounded-full self-start px-2 ${getBackgroundColor(
-                pokemonData?.types?.[0]?.type?.name
-              )} opacity-70`}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: getBackgroundColor(
+                  pokemonData?.types?.[0]?.type?.name
+                ),
+                opacity: 50,
+                borderRadius: 999,
+                paddingHorizontal: 8,
+                alignSelf: "flex-start",
+                marginBottom: 6,
+              }}
             >
-              <Text className="text-white text-sm font-medium capitalize">
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 15,
+                  textTransform: "capitalize",
+                }}
+              >
                 {pokemonData?.types?.[0]?.type?.name}
               </Text>
             </View>
             {pokemonData?.types?.[1]?.type?.name && (
               <View
-                className={`flex flex-row bg-slate-200/50 rounded-full self-start px-2 mt-1 ${getBackgroundColor(
-                  pokemonData?.types?.[1]?.type?.name
-                )} opacity-70`}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  backgroundColor: getBackgroundColor(
+                    pokemonData?.types?.[1]?.type?.name
+                  ),
+                  opacity: 50,
+                  borderRadius: 999,
+                  paddingHorizontal: 8,
+                  alignSelf: "flex-start",
+                  marginBottom: 6,
+                }}
               >
-                <Text className="text-white text-sm font-medium capitalize">
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 15,
+                    textTransform: "capitalize",
+                  }}
+                >
                   {pokemonData?.types?.[1]?.type?.name}
                 </Text>
               </View>
             )}
           </View>
         </View>
-        <View className="mt-2 max-w-full">
-          <View className="flex flex-column gap-2 mt-2 max-w-full min-w-0">
+        <View
+          className="mt-2 max-w-full"
+          style={{ marginTop: 10, maxWidth: "auto" }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+            }}
+          >
             {pokemonData?.stats?.map((stat, index) => (
               <View
-                className="flex-row items-center justify-between max-w-full min-w-0"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  maxWidth: "auto",
+                  minWidth: 0,
+                }}
                 key={index}
               >
-                <Text className="font-medium capitalize">{stat.stat.name}</Text>
-                <View className="w-[200px] max-w-[200px] min-w-0 flex-row items-center">
-                  <Text className="font-bold text-lg capitalize mr-2">
+                <Text style={{ textTransform: "capitalize", fontWeight: 500 }}>
+                  {stat.stat.name}
+                </Text>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    maxWidth: 220,
+                    minWidth: 0,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 16,
+                      marginRight: 8,
+                      textTransform: "capitalize",
+                    }}
+                  >
                     {stat.base_stat}
                   </Text>
-                  <View className="w-full flex-1 h-2 bg-gray-200 rounded-full mt-1">
+                  <View
+                    style={{
+                      width: "100%",
+                      flex: 1,
+                      height: 10,
+                      backgroundColor: "rgba(0, 0, 0, 0.1)",
+                      borderRadius: 999,
+                      overflow: "hidden",
+                    }}
+                  >
                     <View
-                      className={`h-full bg-green-200 rounded-full`}
-                      style={{ width: `${stat.base_stat}%` }}
+                      style={{
+                        width: `${stat.base_stat}%`,
+                        borderRadius: 999,
+                        backgroundColor: getBackgroundColor(
+                          pokemonData?.types?.[0]?.type?.name
+                        ),
+                        height: "100%",
+                      }}
                     />
                   </View>
                 </View>

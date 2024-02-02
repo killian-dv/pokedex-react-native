@@ -5,7 +5,7 @@ export function PokemonInfos({ route }) {
   const pokemonData = route.params.pokemonData;
 
   return (
-    <ScrollView className="p-2 bg-white">
+    <ScrollView style={{ padding: 10, backgroundColor: "#fff" }}>
       <PokemonDetails pokemonInfos={pokemonData} />
     </ScrollView>
   );

@@ -1,46 +1,92 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const getBackgroundColor = (type) => {
   switch (type) {
     case "normal":
-      return "bg-gray-400";
+      return "#9CA3AF";
     case "fighting":
-      return "bg-red-600";
+      return "#EF4444";
     case "flying":
-      return "bg-blue-300";
+      return "#60A5FA";
     case "poison":
-      return "bg-purple-600";
+      return "#8B5CF6";
     case "ground":
-      return "bg-yellow-800";
+      return "#FBBF24";
     case "rock":
-      return "bg-yellow-600";
+      return "#F59E0B";
     case "bug":
-      return "bg-teal-500";
+      return "#10B981";
     case "ghost":
-      return "bg-violet-400";
+      return "#7C3AED";
     case "steel":
-      return "bg-gray-500";
+      return "#6B7280";
     case "fire":
-      return "bg-red-500";
+      return "#DC2626";
     case "water":
-      return "bg-sky-400";
+      return "#3B82F6";
     case "grass":
-      return "bg-emerald-400";
+      return "#10B981";
     case "electric":
-      return "bg-yellow-300";
+      return "#FBBF24";
     case "psychic":
-      return "bg-pink-500";
+      return "#EC4899";
     case "ice":
-      return "bg-blue-200";
+      return "#60A5FA";
     case "dragon":
-      return "bg-red-900";
+      return "#DC2626";
     case "dark":
-      return "bg-gray-900";
+      return "#4B5563";
     case "fairy":
-      return "bg-pink-300";
+      return "#EC4899";
     case "unknown":
-      return "bg-gray-200";
+      return "#F9FAFB";
     case "shadow":
-      return "bg-gray-900";
+      return "#4B5563";
     default:
-      return "bg-slate-200";
+      return "#F9FAFB";
+  }
+};
+
+export const storeData = async (key, value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(key, jsonValue);
+  } catch (e) {
+    // saving error
+  }
+};
+
+export const getData = async (key) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(key);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
+
+export const getAllKeys = async () => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    return keys;
+  } catch (e) {
+    // error reading value
+  }
+};
+
+export const multiGet = async (keys) => {
+  try {
+    const values = await AsyncStorage.multiGet(keys);
+    return values;
+  } catch (e) {
+    // read error
+  }
+};
+
+export const removeData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    // remove error
   }
 };

@@ -52,22 +52,22 @@ export default function App() {
           <Tab.Screen
             name="Home"
             component={HomeStack}
-            // options={{ headerShown: false }}
+            options={{ headerShown: false }}
           />
           <Tab.Screen
             name="Search"
             component={SearchStack}
-            // options={{ headerShown: false }}
+            options={{ headerShown: false }}
           />
           <Tab.Screen
             name="Team"
-            component={TeamScreen}
-            // options={{ headerShown: false }}
+            component={TeamStack}
+            options={{ headerShown: false }}
           />
           <Tab.Screen
             name="Settings"
-            component={SettingsScreen}
-            // options={{ headerShown: false }}
+            component={SettingsStack}
+            options={{ headerShown: false }}
           />
         </Tab.Navigator>
       </NavigationContainer>
@@ -88,6 +88,23 @@ function SearchStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Search Pokemon" component={SearchScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function TeamStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="My Team" component={TeamScreen} />
+      <Stack.Screen name="Details" component={PokemonInfos} />
+    </Stack.Navigator>
+  );
+}
+
+function SettingsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Set my account" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
