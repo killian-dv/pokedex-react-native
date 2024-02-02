@@ -2,6 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as ScreenOrientation from "expo-screen-orientation";
 import * as React from "react";
 
 // Import pages
@@ -15,6 +16,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
   return (
     <>
       <NavigationContainer>
