@@ -37,7 +37,7 @@ export function SettingsScreen() {
           marginBottom: 10,
         }}
       >
-        <Text className="text-lg">Orientation Landscape</Text>
+        <Text className="text-lg">Landscape orientation</Text>
         <Switch
           trackColor={{ false: "#fefefe", true: "#fb6c6c" }}
           thumbColor={isEnabled ? "#fff" : "#fff"}

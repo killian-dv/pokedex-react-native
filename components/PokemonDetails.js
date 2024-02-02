@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Haptics from "expo-haptics";
 import { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import {
@@ -77,7 +77,10 @@ export function PokemonDetails({ pokemonInfos }) {
             alignItems: "center",
             display: "flex",
           }}
-          onPress={() => toggleLike()}
+          onPress={() => {
+            toggleLike();
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          }}
         >
           <Ionicons
             name={isLiked ? "ios-heart" : "ios-heart-outline"}
